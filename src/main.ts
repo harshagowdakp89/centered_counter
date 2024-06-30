@@ -1,27 +1,32 @@
 import { factory } from "./factory";
 
-let count = factory(0, 1);
-
-function update_count_and_reset_counter() {}
-
-const start_at_control = document.getElementById(
-  "start_at",
-) as HTMLInputElement;
-
-const step_control = document.getElementById("step") as HTMLInputElement;
-
-start_at_control?.addEventListener("change", () => {});
-
-step_control?.addEventListener("change", () => {});
-
-const count_button = document.querySelector(
-  ".count_button",
+// DOM elements
+const startAtControl = document.getElementById("start-at") as HTMLInputElement;
+const stepControl = document.getElementById("step") as HTMLInputElement;
+const countButton = document.querySelector(
+  ".count_button"
 ) as HTMLButtonElement;
-
-const current_count = document.querySelector(
-  ".current_count",
+const currentCount = document.querySelector(
+  ".current_count"
 ) as HTMLSpanElement;
 
-function update_count() {}
+// Function to update count based on factory function and reset counter
+function updateCountAndResetCounter() {
+  const startValue = Number(startAtControl.value);
+  const stepValue = 0; // resetting the step value to '0' to ensure that, before clicking the counter button it should not add the step value during the reset.
+  const result = factory(startValue, stepValue);
+  currentCount.textContent = result().toString();
+}
 
-count_button.addEventListener("click", update_count);
+// Event listeners for start-at and step controls
+[startAtControl, stepControl].forEach((control) => {
+  control.addEventListener("input", updateCountAndResetCounter); // Use 'input' event for immediate update
+});
+
+// Event listener for count button
+countButton.addEventListener("click", () => {
+  const currentValue = Number(currentCount.textContent);
+  const stepValue = Number(stepControl.value);
+  const result = factory(currentValue, stepValue);
+  currentCount.textContent = result().toString();
+});
