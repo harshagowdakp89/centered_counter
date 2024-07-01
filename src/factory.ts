@@ -6,9 +6,12 @@
  * @returns {Function} - A function that generates the number sequence every time it is called.
  */
 
-export const factory = (start: number = 0, step: number = 1) => {
-  let current = start;
-  return () => {
+export const factory = (
+  start: number = 0,
+  step: number = 1
+): (() => number) => {
+  let current: number = start;
+  return (): number => {
     current += step;
     return current;
   };
